@@ -12,11 +12,13 @@ This repository contains Python analysis scripts and relevant data for the study
 
 This work investigates the effects of sodium oxide (Na₂O) content and temperature on the structure and mechanical properties of silicate glasses, using classical molecular dynamics (MD) simulations and Brillouin light scattering (BLS) measurements.
 
-This repository includes all Python scripts used to analyze simulation data and generate the figures presented in the publication. Structural features, elastic properties, Voronoi statistics, and diffusion behavior are explored in detail.
+This repository includes all Python scripts used to analyze simulation data and generate the figures presented in the publication. Structural features, elastic properties, Voronoi statistics, angular and radial distribution functions, and diffusion behavior are explored in detail.
 
 ---
 
 ## 📁 Repository Contents
+
+### 📊 Main Figures
 
 | Filename | Description |
 |---------|-------------|
@@ -32,6 +34,38 @@ This repository includes all Python scripts used to analyze simulation data and 
 | `normalized_arrhenius_plot_fig11.py` | Generates a normalized Arrhenius plot of Na diffusion (Figure 11). |
 | `na_diffusion_analysis_fig12.py` | Analyzes temperature dependence of Na diffusion coefficients (Figure 12). |
 | `na_voronoi_volume_percentage_fig13.py` | Voronoi volume analysis of Na atoms (Figure 13). |
+
+---
+
+### 🔬 Radial Distribution Functions (RDF)
+
+| Filename | Description |
+|---------|-------------|
+| `RDF_PLOT_Na_Na.py` | RDF plot for Na–Na pairs. |
+| `RDF_PLOT_Na_O.py` | RDF plot for Na–O pairs. |
+| `RDF_PLOT_O_O.py` | RDF plot for O–O pairs. |
+| `RDF_PLOT_Si_O.py` | RDF plot for Si–O pairs. |
+| `RDF_PLOT_Si_Si.py` | RDF plot for Si–Si pairs. |
+
+---
+
+### 🧭 Angular Distribution Functions (ADF)
+
+| Filename | Description |
+|---------|-------------|
+| `ADF_PLOT_NaONa.py` | ADF for Na–O–Na angles. |
+| `ADF_PLOT_NaOSi.py` | ADF for Na–O–Si angles. |
+| `ADF_PLOT_ONaO.py` | ADF for O–Na–O angles. |
+| `ADF_PLOT_OSiO.py` | ADF for O–Si–O angles. |
+| `ADF_PLOT_SiOSi.py` | ADF for Si–O–Si angles. |
+
+---
+
+### 📈 Other Analysis Scripts
+
+| Filename | Description |
+|---------|-------------|
+| `msd_linear_loglog_scales_d_t.py` | Calculates and plots mean square displacement (MSD) and diffusion coefficients on linear and log-log scales. |
 
 ---
 
@@ -51,7 +85,7 @@ To run the scripts, the following Python packages are required:
 - `pandas`
 - `seaborn`
 
-You can install them using:
+Install them using:
 
 ```bash
 pip install numpy matplotlib scipy pandas seaborn
@@ -81,4 +115,6 @@ For questions or contributions, please contact:
 **Hicham Jabraoui**
 📧 [hicham.jabraoui@gmail.com](mailto:hicham.jabraoui@gmail.com)
 [GitHub Profile](https://github.com/JABRAOUI)
+
+```
 
