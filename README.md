@@ -41,21 +41,22 @@ All optimized glass structures for each composition and temperature, as well as 
 
 ---
 
+
+"""
 ## 🛠 Requirements
 
-To run the scripts, the following Python packages are recommended:
+To run this script, the following Python packages are required:
 
 - `numpy`
 - `matplotlib`
 - `scipy`
 - `pandas`
-- `ase` (for structure parsing and manipulation)
+- `seaborn`
 
 You can install them using:
 
 ```bash
-pip install numpy matplotlib scipy pandas ase
-````
+pip install numpy matplotlib pandas seaborn scipy
 
 ---
 
