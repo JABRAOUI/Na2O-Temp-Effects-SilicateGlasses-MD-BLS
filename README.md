@@ -1,4 +1,3 @@
-````markdown
 # Na2O-Temp-Effects-SilicateGlasses-MD-BLS
 
 This repository contains Python analysis scripts and relevant data for the study:
