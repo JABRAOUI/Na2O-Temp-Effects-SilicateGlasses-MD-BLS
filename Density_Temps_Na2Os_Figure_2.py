@@ -2,26 +2,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from matplotlib.ticker import MultipleLocator
+import math
 
-# Enable LaTeX rendering in Matplotlib and load the amsmath package
+# Configure LaTeX rendering and fonts to match the second code
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,siunitx}'
-
-# Enhanced font sizes and styles
-sns.set(font_scale=1.5, style="whitegrid")
-plt.rcParams.update({
-    'axes.labelsize': 16,
-    'xtick.labelsize': 14,
-    'ytick.labelsize': 14,
-    'legend.fontsize': 14,
-    'grid.alpha': 0.3,
-    'grid.linestyle': ':',
-    'lines.linewidth': 2.5,
-    'lines.markersize': 10,
-    'axes.titlesize': 18
-})
+plt.rcParams['axes.labelsize'] = 16
+plt.rcParams['xtick.labelsize'] = 14
+plt.rcParams['ytick.labelsize'] = 14
+plt.rcParams['legend.fontsize'] = 14
+plt.rcParams['figure.titlesize'] = 18
+sns.set_style("whitegrid")
+sns.set_palette("deep")
 
 # Simulation data
 Na2O_percent = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50] * 4
@@ -56,48 +49,36 @@ df_experimental = pd.DataFrame({
     "Density": density_exp
 })
 
-# Create figure with enhanced layout
+# Create figure with layout matching the second code
 fig, ax = plt.subplots(figsize=(8, 6))
+fig.suptitle(r'Density Comparison', fontsize=18, y=1.02)
 
-# Create a distinct color palette
-palette = sns.color_palette("husl", n_colors=len(df_simulated["Temperature"].unique()))
-
-# Plot simulated data with enhanced markers
-markers = ['o', 's', 'D', '^']  # Different markers for each temperature
+# Plot simulated data with styling from second code
+colors = sns.color_palette("deep")
 for i, temp in enumerate(sorted(df_simulated["Temperature"].unique())):
     temp_data = df_simulated[df_simulated["Temperature"] == temp]
     ax.plot(temp_data["Percentage_Na2O"], temp_data["Density"], 
-            label=f"Simulated {temp} K", color=palette[i], 
-            marker=markers[i], markersize=8, markeredgecolor='k', markeredgewidth=0.5)
+            label=f"Simulated {temp} K", color=colors[i], 
+            linewidth=2.5, linestyle=['-', '--', ':', '-.'][i % 4])
 
 # Plot experimental data with distinct style
 ax.plot(df_experimental["Percentage_Na2O"], df_experimental["Density"], 
         label="Experimental (Room Temp)", color='k', 
-        marker='*', markersize=10, linestyle=':', linewidth=2.5)
+        linewidth=2.5, linestyle='-', marker='o', markersize=8)
 
-# Enhanced axis labels
-ax.set_xlabel(r"Na$_2$O (\%)", fontsize=16, labelpad=10)
-ax.set_ylabel(r"Density (g/cm$^3$)", fontsize=16, labelpad=10)
+# Axis labels matching second code style
+ax.set_xlabel(r'Na$_2$O (\%)', fontsize=16)
+ax.set_ylabel(r'Density (g/cm$^3$)', fontsize=16)
 
-# Enhanced y-axis ticks
-ax.yaxis.set_major_locator(MultipleLocator(0.05))  # Major ticks every 0.05
-ax.yaxis.set_minor_locator(MultipleLocator(0.05))  # Minor ticks every 0.01
-ax.tick_params(axis='y', which='both', direction='in', right=True)
-ax.set_ylim(2, 3)  # Adjusted y-axis limits
+# Grid and limits
+ax.grid(True, linestyle=':', alpha=0.7)
+ax.set_ylim(2.15, 2.65)
 
-# Custom grid
-ax.grid(True, which='major', linestyle='-', alpha=0.5)
-ax.grid(True, which='minor', linestyle=':', alpha=0.2)
-
-# Enhanced legend
-legend = ax.legend(title="Temperature", bbox_to_anchor=(1.02, 1), loc='upper left', 
-                  frameon=True, framealpha=1, edgecolor='k')
+# Legend matching second code style
+legend = ax.legend(title="Temperature", frameon=True, framealpha=0.9, 
+                  shadow=True, bbox_to_anchor=(1.02, 1), loc='upper left')
 legend.get_title().set_fontsize('14')
 
-# Add text annotation for experimental data
-#ax.text(0.02, 0.98, "Experimental data at 300K", transform=ax.transAxes,
-#        fontsize=12, verticalalignment='top', bbox=dict(facecolor='white', alpha=0.8))
-
 plt.tight_layout()
-plt.savefig("enhanced_density_comparison.png", dpi=300, bbox_inches="tight")
+plt.savefig("density_comparison.png", dpi=300, bbox_inches="tight")
 plt.show()
