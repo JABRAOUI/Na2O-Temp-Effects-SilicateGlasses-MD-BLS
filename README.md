@@ -37,7 +37,7 @@ This repository includes all Python scripts used to analyze simulation data and 
 
 ## 📂 Supplementary Data
 
-All optimized glass structures for each composition and temperature, as well as mean square displacement (MSD) data at different temperatures, are provided as supplementary material in the revised manuscript.
+All optimized glass structures for each composition and temperature, as well as mean square displacement (MSD) data at different temperatures, are provided as supplementary material. Please see the journal website for access to these files.
 
 ---
 
