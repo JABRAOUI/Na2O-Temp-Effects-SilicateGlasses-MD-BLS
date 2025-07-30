@@ -19,8 +19,8 @@ plt.rcParams['figure.titlesize'] = 18
 # Create figure with 3x3 grid
 fig = plt.figure(figsize=(10, 15))
 
-# Create a 3x3 grid
-gs = fig.add_gridspec(3, 3, width_ratios=[3, 1, 0.1], wspace=0.05)
+# Create a 3x3 grid with more space for legends
+gs = fig.add_gridspec(3, 3, width_ratios=[3, 1.2, 0.1], wspace=0.05)
 
 # --- Qi Species Data ---
 ax1 = fig.add_subplot(gs[0, 0])
@@ -56,7 +56,6 @@ for qi, qi_data in qi_melted.groupby("Qi_species"):
     lines.extend(line.get_lines())
     labels.append(qi)
 
-# Place title inside the panel at the top
 ax1.text(0.5, 0.95, '(a) Qi Species Distribution', transform=ax1.transAxes,
          fontsize=16, ha='center', va='top', bbox=dict(facecolor='white', alpha=0.8, edgecolor='none', pad=2))
 ax1.set_xlabel(r'$\ch{Na2O}~(\%)$')
@@ -64,7 +63,6 @@ ax1.set_ylabel(r'Percentage (\%)')
 ax1.set_ylim(0, 105)
 ax1.grid(True, alpha=0.3)
 
-# Create legend in the right panel
 ax1_leg.legend(lines, labels, title=r'$Q_i$ Species', loc='center', framealpha=1)
 ax1_leg.axis('off')
 
@@ -84,21 +82,31 @@ oxy_melted = oxy_df.melt(id_vars=["Percentage_Na2O"],
                         value_vars=["BO", "NBO", "FO"],
                         var_name="Oxygen_Type", value_name="Percentage")
 
+# Define colors first, then apply them consistently
+oxy_colors = {
+    "BO": "#1f77b4",  # Blue
+    "NBO": "#ff7f0e",  # Orange
+    "FO": "#2ca02c"   # Green
+}
+
+# Apply LaTeX formatting after color assignment
 oxy_melted["Oxygen_Type"] = oxy_melted["Oxygen_Type"].replace({
-    "BO": r"$\text{BO}$", "NBO": r"$\text{NBO}$", "FO": r"$\text{FO}$"
+    "BO": r"$\text{BO}$", 
+    "NBO": r"$\text{NBO}$", 
+    "FO": r"$\text{FO}$"
 })
 
-palette = sns.color_palette("tab10", n_colors=3)
+# Plot with consistent color mapping
 lines2 = []
 labels2 = []
 for oxy, oxy_data in oxy_melted.groupby("Oxygen_Type"):
+    plain_name = oxy.replace(r"\text{", "").replace("}", "").replace("$", "")
     line = sns.lineplot(data=oxy_data, x="Percentage_Na2O", y="Percentage", 
-                        color=palette[oxy_melted["Oxygen_Type"].unique().tolist().index(oxy)], 
+                        color=oxy_colors[plain_name],
                         linewidth=2.5, marker="o", markersize=8, ax=ax2)
-    lines2.extend(line.get_lines())
+    lines2.append(line.lines[-1])  # Get the last line created
     labels2.append(oxy)
 
-# Place title inside the panel at the top
 ax2.text(0.5, 0.95, '(b) Oxygen Type Distribution', transform=ax2.transAxes,
          fontsize=16, ha='center', va='top', bbox=dict(facecolor='white', alpha=0.8, edgecolor='none', pad=2))
 ax2.set_xlabel(r'$\ch{Na2O}~(\%)$')
@@ -106,7 +114,7 @@ ax2.set_ylabel(r'Percentage of O (\%)')
 ax2.set_ylim(0, 105)
 ax2.grid(True, alpha=0.3)
 
-# Create legend in the right panel
+# Create legend with the exact same lines and colors
 ax2_leg.legend(lines2, labels2, title='Oxygen Types', loc='center', framealpha=1)
 ax2_leg.axis('off')
 
@@ -136,17 +144,16 @@ na_cn_melted["Coordination"] = na_cn_melted["Coordination"].replace({
     "CN9": r"$\text{CN=9}$"
 })
 
-palette = sns.color_palette("viridis", n_colors=7)
+palette = sns.color_palette("Set2", n_colors=7)
 lines3 = []
 labels3 = []
 for cn, cn_data in na_cn_melted.groupby("Coordination"):
     line = sns.lineplot(data=cn_data, x="Percentage_Na2O", y="Percentage", 
                         color=palette[na_cn_melted["Coordination"].unique().tolist().index(cn)], 
                         linewidth=2.5, marker="o", markersize=8, ax=ax3)
-    lines3.extend(line.get_lines())
+    lines3.append(line.lines[-1])
     labels3.append(cn)
 
-# Place title inside the panel at the top
 ax3.text(0.5, 0.95, '(c) Na Coordination Number Distribution', transform=ax3.transAxes,
          fontsize=16, ha='center', va='top', bbox=dict(facecolor='white', alpha=0.8, edgecolor='none', pad=2))
 ax3.set_xlabel(r'$\ch{Na2O}~(\%)$')
@@ -154,13 +161,9 @@ ax3.set_ylabel(r'Percentage of Na (\%)')
 ax3.set_ylim(0, 45)
 ax3.grid(True, alpha=0.3)
 
-# Create legend in the right panel
 ax3_leg.legend(lines3, labels3, title='Na Coordination', loc='center', framealpha=1)
 ax3_leg.axis('off')
 
-# Adjust layout with more padding between subplots
 plt.tight_layout(h_pad=3.0)
-
-# Save the plot
 plt.savefig("structural_properties_Qi_Oxygens_CN.png", dpi=300, bbox_inches="tight")
 plt.show()
